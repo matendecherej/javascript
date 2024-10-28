@@ -1,4 +1,4 @@
-to incorporate javascript with HTML and CSS, we use the <script src="./script.js"></script>. This enables you to go from HTML to javascript, however in javascript, to access HTML, you have to use the code:
+To incorporate javascript with HTML and CSS, we use the <script src="./script.js"></script>. This enables you to go from HTML to javascript, however in javascript, to access HTML, you have to use the code:
 
  const element = document.getElementById("elementId");
 
