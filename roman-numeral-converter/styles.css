@@ -1,0 +1,36 @@
+body {
+    font-family: papyrus;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #003c;
+  }
+  h1 {
+    color: #fff;
+  }
+  input {
+    height: 50px;
+    width: 75%;
+    font-size: 1rem;
+    padding: 10px;
+    margin: 10px;
+  }
+  button {
+    cursor: pointer;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+  }
+  button:hover {
+    background-color: #0056b3;
+      }
+  output {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+      }
