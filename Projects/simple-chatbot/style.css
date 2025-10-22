@@ -1,0 +1,89 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.chat-container {
+  width: 400px;
+  height: 500px;
+  background: white;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.chat-box {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.input-area {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+
+#user-input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+
+#send-btn {
+  padding: 10px 15px;
+  background: #007bff;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.user-message, .bot-message {
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 80%;
+}
+
+.user-message {
+  background-color:rgb(3, 38, 75);
+  color: white;
+  align-self: flex-end;
+}
+
+.bot-message {
+  background-color: #e9ecef;
+  align-self: flex-start;
+}
+
+/* Animation setup */
+@keyframes fadeInUp {
+0% {
+  opacity: 0;
+  transform: translateY(20px);
+}
+100% {
+  opacity: 1;
+  transform: translateY(0);
+}
+}
+
+/* Apply animation to both user and bot messages */
+.user-message, .bot-message {
+animation: fadeInUp 0.3s ease forwards;
+}
+
+#clear-btn {
+background: #dc3545;
+color: white;
+border: none;
+padding: 8px;
+cursor: pointer;
+border-radius: 5px;
+margin: 8px;
+}
