@@ -1,0 +1,18 @@
+{
+  "name": "somaside1",
+  "version": "1.0.0",
+  "description": "This is my teachable moment. This is my child, I want to grow it till it gives me millions.\r Here is the path;",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongodb": "^7.1.0",
+    "mongoose": "^9.3.1"
+  }
+}

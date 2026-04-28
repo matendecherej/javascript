@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soma Side — African Stories, Amplified</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* =====================
+       TOKENS
+    ===================== */
+    :root {
+      --plum:          #1e0130;
+      --plum-mid:      #2e0a3f;
+      --purple:        #7b2fbe;
+      --purple-bright: #9b3fe0;
+      --violet:        #b06aff;
+      --gold:          #e8b84b;
+      --cream:         #f5f0e8;
+      --white:         #ffffff;
+      --muted:         rgba(255,255,255,0.55);
+      --radius-lg:     24px;
+      --radius-sm:     12px;
+    }
+
+    /* Force hide the default cursor everywhere */
+   *, *::before, *::after {
+     cursor: none !important;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--plum);
+      color: var(--white);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* =====================
+       CUSTOM CURSOR (single definition)
+    ===================== */
+    .cursor {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--gold);
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.12s ease, width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: difference;
+    }
+
+    .cursor.expand {
+      width: 40px;
+      height: 40px;
+      background: var(--violet);
+    }
+
+    /* =====================
+       NOISE TEXTURE OVERLAY
+    ===================== */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* =====================
+       NAVBAR
+    ===================== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(30,1,48,0.7);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-logo img {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.75);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: var(--gold);
+      color: var(--plum) !important;
+      padding: 0.45rem 1.3rem;
+      border-radius: 50px;
+      font-weight: 700 !important;
+      transition: transform 0.2s, box-shadow 0.2s !important;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(232,184,75,0.4);
+      color: var(--plum) !important;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.6rem;
+      cursor: pointer;
+    }
+
+    /* =====================
+       HERO
+    ===================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 7rem 2.5rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(123,47,190,0.06) 40px, rgba(123,47,190,0.06) 41px),
+        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(232,184,75,0.04) 40px, rgba(232,184,75,0.04) 41px);
+      pointer-events: none;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      opacity: 0.45;
+    }
+
+    .orb-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, #7b2fbe, transparent 70%);
+      top: -150px; right: -150px;
+    }
+
+    .orb-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #e8b84b33, transparent 70%);
+      bottom: 0; left: -100px;
+      opacity: 0.6;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      width: 100%;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      padding: 0.4rem 1rem 0.4rem 0.6rem;
+      border: 1px solid rgba(232,184,75,0.3);
+      border-radius: 50px;
+      width: fit-content;
+    }
+
+    .hero-tag .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 6.5vw, 5.2rem);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      color: var(--white);
+    }
+
+    .hero h1 .line-gold   { color: var(--gold);   display: block; }
+    .hero h1 .line-violet { color: var(--violet); display: block; font-style: italic; }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 440px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      border-radius: 50px;
+      background: var(--gold);
+      color: var(--plum);
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(232,184,75,0.45);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      border-radius: 50px;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      color: var(--white);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--violet);
+      background: rgba(176,106,255,0.1);
+    }
+
+    /* Hero visual */
+    .hero-visual {
+      position: relative;
+      height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .story-stack { position: relative; width: 320px; height: 420px; }
+
+    .story-card-hero {
+      position: absolute;
+      width: 220px;
+      border-radius: 18px;
+      padding: 1.5rem;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .story-card-hero:hover { transform: translateY(-8px) rotate(0deg) !important; }
+
+    .sc1 { background: linear-gradient(145deg,#3d1260,#7b2fbe); top:0; left:0; transform:rotate(-5deg); z-index:1; }
+    .sc2 { background: linear-gradient(145deg,#4a2080,#9b3fe0); top:40px; left:60px; transform:rotate(2deg); z-index:2; }
+    .sc3 { background: linear-gradient(145deg,#2e0a3f,#5f2090); top:80px; left:110px; transform:rotate(6deg); z-index:3; }
+
+    .story-card-hero .card-genre  { font-size:.7rem; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--gold); margin-bottom:.6rem; }
+    .story-card-hero .card-title  { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; line-height:1.3; margin-bottom:.5rem; }
+    .story-card-hero .card-author { font-size:.8rem; color:rgba(255,255,255,0.6); }
+    .story-card-hero .card-line   { height:2px; border-radius:2px; background:rgba(255,255,255,0.15); margin:.8rem 0; }
+    .story-card-hero .card-preview{ font-size:.8rem; color:rgba(255,255,255,0.5); line-height:1.6; }
+
+    .africa-float {
+      position: absolute;
+      bottom: 20px; right: 0;
+      font-size: 5rem;
+      opacity: 0.12;
+      animation: floatY 4s ease-in-out infinite;
+      user-select: none;
+    }
+
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-14px); }
+    }
+
+    /* =====================
+       MARQUEE TICKER
+    ===================== */
+    .ticker {
+      background: var(--gold);
+      color: var(--plum);
+      padding: 0.7rem 0;
+      overflow: hidden;
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 3rem;
+      animation: marquee 20s linear infinite;
+      width: max-content;
+    }
+
+    .ticker-track span {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .ticker-track .sep { opacity: 0.4; }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* =====================
+       FEATURES
+    ===================== */
+    .features { padding: 7rem 2.5rem; position: relative; }
+
+    .section-eyebrow {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--violet);
+      margin-bottom: 0.8rem;
+    }
+
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .features-grid {
+      max-width: 1100px;
+      margin: 4rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .feat-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      transition: background 0.3s, transform 0.3s, border-color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feat-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--purple), var(--violet));
+      border-radius: 3px 3px 0 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feat-card:hover { background: rgba(123,47,190,0.1); transform: translateY(-6px); border-color: rgba(176,106,255,0.2); }
+    .feat-card:hover::before { opacity: 1; }
+
+    .feat-icon { font-size: 2.2rem; margin-bottom: 1rem; display: block; }
+    .feat-card h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--white); }
+    .feat-card p  { font-size: 0.9rem; line-height: 1.7; color: var(--muted); }
+
+    /* =====================
+       STORIES SHOWCASE
+    ===================== */
+    .showcase {
+      padding: 5rem 2.5rem 7rem;
+      background: var(--plum-mid);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .showcase::before {
+      content: "";
+      position: absolute;
+      top: -2px; left: 0; right: 0;
+      height: 3px;
+      background: repeating-linear-gradient(90deg, var(--gold) 0, var(--gold) 20px, transparent 20px, transparent 40px);
+      opacity: 0.5;
+    }
+
+    .showcase-header {
+      max-width: 1100px;
+      margin: 0 auto 3rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .showcase-cards {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .sc-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.35s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .sc-card:hover { transform: translateY(-8px); }
+
+    .sc-card-bg {
+      height: 240px;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .sc-card-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(30,1,48,0.95) 30%, transparent 100%);
+    }
+
+    .sc-card-body {
+      position: relative;
+      z-index: 1;
+      padding: 1.2rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-top: none;
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+
+    .sc-genre {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.7rem;
+      border-radius: 50px;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    .genre-poem  { background: #3d1260; color: #c8a0ff; }
+    .genre-story { background: #1a3060; color: #8ab4ff; }
+    .genre-song  { background: #1a4030; color: #6adfb0; }
+
+    .sc-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .sc-card-body .sc-author { font-size: 0.8rem; color: var(--muted); }
+
+    .sc-card-inline-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: white;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* =====================
+       HOW IT WORKS
+    ===================== */
+    .how { padding: 7rem 2.5rem; max-width: 1100px; margin: 0 auto; }
+
+    .how-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 4rem;
+      position: relative;
+    }
+
+    .how-steps::before {
+      content: "";
+      position: absolute;
+      top: 36px;
+      left: calc(16.66% + 1rem);
+      right: calc(16.66% + 1rem);
+      height: 1px;
+      background: linear-gradient(90deg, var(--purple), var(--violet));
+      opacity: 0.3;
+    }
+
+    .step { text-align: center; }
+
+    .step-num {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 10px 30px rgba(123,47,190,0.5);
+      position: relative;
+      z-index: 1;
+    }
+
+    .step h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .step p  { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+    /* =====================
+       QUOTE
+    ===================== */
+    .quotes {
+      background: var(--gold);
+      padding: 5rem 2.5rem;
+      color: var(--plum);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .quotes .big-q {
+      font-family: 'Playfair Display', serif;
+      font-size: 14rem;
+      line-height: 0.8;
+      color: rgba(30,1,48,0.08);
+      position: absolute;
+      top: 1rem; left: 1rem;
+      user-select: none;
+    }
+
+    .quotes-inner { max-width: 800px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+
+    .quote-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      font-style: italic;
+      line-height: 1.4;
+      color: var(--plum);
+      margin-bottom: 1.5rem;
+    }
+
+    .quote-author {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(30,1,48,0.6);
+    }
+
+    /* =====================
+       CTA BANNER
+    ===================== */
+    .cta-banner { padding: 7rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+
+    .cta-banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(123,47,190,0.3) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-banner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(45deg, rgba(232,184,75,0.04) 0, rgba(232,184,75,0.04) 1px, transparent 1px, transparent 20px),
+        repeating-linear-gradient(-45deg, rgba(232,184,75,0.04) 0, rgba(232,184,75,0.04) 1px, transparent 1px, transparent 20px);
+      pointer-events: none;
+    }
+
+    .cta-banner-inner { position: relative; z-index: 1; }
+
+    .cta-banner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .cta-banner h2 span { color: var(--gold); font-style: italic; }
+
+    .cta-banner p {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* =====================
+       FOOTER
+    ===================== */
+    footer {
+      background: #0e0018;
+      padding: 3rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    
+
+    footer .footer-logo img { height: 36px; width: auto; }
+
+    .footer-links { display: flex; gap: 1.8rem; list-style: none; }
+
+    .footer-links a {
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+    footer .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.25); }
+
+    /* =====================
+       SCROLL REVEAL
+    ===================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .reveal-group > * {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal-group.visible > *:nth-child(1) { opacity:1; transform:translateY(0); transition-delay:0s; }
+    .reveal-group.visible > *:nth-child(2) { opacity:1; transform:translateY(0); transition-delay:0.12s; }
+    .reveal-group.visible > *:nth-child(3) { opacity:1; transform:translateY(0); transition-delay:0.24s; }
+
+    /* =====================
+       RESPONSIVE
+    ===================== */
+    @media (max-width: 960px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .features-grid, .showcase-cards, .how-steps { grid-template-columns: 1fr 1fr; }
+      .how-steps::before { display: none; }
+    }
+
+    @media (max-width: 640px) {
+      .features-grid, .showcase-cards, .how-steps { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .menu-toggle { display: block; }
+      footer { flex-direction: column; text-align: center; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CURSOR — single instance only -->
+  <div class="cursor" id="cursor"></div>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <nav>
+    <div class="nav-logo">
+      <img src="assets/logo.PNG" alt="Soma Side">
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="home.html">Stories</a></li>
+      <li><a href="upload.html">Write</a></li>
+      <li><a href="profile.html" class="nav-cta">Join Free</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-tag">
+          <span class="dot"></span>
+          Africa's Literary Platform
+        </div>
+        <h1>
+          Read. Write.
+          <span class="line-gold">Feel African</span>
+          <span class="line-violet">stories.</span>
+        </h1>
+        <p class="hero-sub">
+          Soma Side is where Africa's poets, storytellers, and songwriters share their craft — and where readers find voices they've never heard before.
+        </p>
+        <div class="hero-btns">
+          <a href="home.html" class="btn-primary">Start Reading ✦</a>
+          <a href="upload.html" class="btn-ghost">Publish Your Story →</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="story-stack">
+          <div class="story-card-hero sc1">
+            <p class="card-genre">✦ Poem</p>
+            <h3 class="card-title">Harmattan Daughter</h3>
+            <p class="card-author">by Ngozi A. · Lagos</p>
+            <div class="card-line"></div>
+            <p class="card-preview">She carries dust like memory — stubborn, season-less, hers…</p>
+          </div>
+          <div class="story-card-hero sc2">
+            <p class="card-genre">✦ Story</p>
+            <h3 class="card-title">The Fisherman's Oath</h3>
+            <p class="card-author">by Kofi M. · Accra</p>
+            <div class="card-line"></div>
+            <p class="card-preview">The sea remembers every promise made on its shore…</p>
+          </div>
+          <div class="story-card-hero sc3">
+            <p class="card-genre">✦ Song</p>
+            <h3 class="card-title">Mtoto wa Pwani</h3>
+            <p class="card-author">by Amara K. · Mombasa</p>
+            <div class="card-line"></div>
+            <p class="card-preview">Mama's lullaby stitched into salt and wave…</p>
+          </div>
+        </div>
+        <span class="africa-float">🌍</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TICKER ===================== -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>Poems</span><span class="sep">✦</span>
+      <span>Folktales</span><span class="sep">✦</span>
+      <span>Songs</span><span class="sep">✦</span>
+      <span>Short Stories</span><span class="sep">✦</span>
+      <span>African Voices</span><span class="sep">✦</span>
+      <span>54 Countries</span><span class="sep">✦</span>
+      <span>Free to Read</span><span class="sep">✦</span>
+      <span>Free to Publish</span><span class="sep">✦</span>
+      <span>Poems</span><span class="sep">✦</span>
+      <span>Folktales</span><span class="sep">✦</span>
+      <span>Songs</span><span class="sep">✦</span>
+      <span>Short Stories</span><span class="sep">✦</span>
+      <span>African Voices</span><span class="sep">✦</span>
+      <span>54 Countries</span><span class="sep">✦</span>
+      <span>Free to Read</span><span class="sep">✦</span>
+      <span>Free to Publish</span><span class="sep">✦</span>
+    </div>
+  </div>
+
+  <!-- ===================== FEATURES ===================== -->
+  <section class="features">
+    <div style="max-width:1100px; margin:0 auto;">
+      <p class="section-eyebrow reveal">Why Soma Side</p>
+      <h2 class="section-heading reveal">Built for Africa's stories.<br>Finally.</h2>
+    </div>
+    <div class="features-grid reveal-group">
+      <div class="feat-card">
+        <span class="feat-icon">📖</span>
+        <h3>Read Without Borders</h3>
+        <p>Poems, folktales, songs, and short stories from every corner of Africa — all in one place, free forever.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">✍🏾</span>
+        <h3>Publish Your Craft</h3>
+        <p>No gatekeepers. Upload your work, reach real readers, and build an audience that celebrates your voice.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">🌍</span>
+        <h3>African First</h3>
+        <p>Not an afterthought or a category. Soma Side exists specifically for African narratives — from Lagos to Nairobi to Dakar.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">💬</span>
+        <h3>Community & Feedback</h3>
+        <p>Like, bookmark, and comment. Writers grow when readers engage. We make that conversation easy.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">🎵</span>
+        <h3>Songs & Poetry</h3>
+        <p>We go beyond prose. Share song lyrics, spoken word, and poetry — art forms that are the heartbeat of African culture.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">🔍</span>
+        <h3>Discover & Explore</h3>
+        <p>Browse by genre, country, or mood. Find writers you didn't know you needed — stories that feel like home.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SHOWCASE ===================== -->
+  <section class="showcase">
+    <div class="showcase-header reveal">
+      <div>
+        <p class="section-eyebrow">Fresh off the page</p>
+        <h2 class="section-heading">Stories you'll love</h2>
+      </div>
+      <a href="home.html" class="btn-ghost" style="font-size:0.88rem; padding:0.6rem 1.4rem;">Browse all →</a>
+    </div>
+
+    <div class="showcase-cards reveal-group">
+      <!-- Card 1 -->
+      <a href="story.html?id=1" class="sc-card">
+        <div class="sc-card-bg" style="background-image: url('images/six.jpg'); background-size: cover; background-position: center;">
+          <span class="sc-card-inline-title">Harmattan Daughter</span>
+        </div>
+        <div class="sc-card-body">
+          <span class="sc-genre genre-poem">Poem</span>
+          <h3>Harmattan Daughter</h3>
+          <p class="sc-author">Ngozi A. · Lagos, Nigeria</p>
+        </div>
+      </a>
+
+      <!-- Card 2 -->
+      <a href="story.html?id=2" class="sc-card">
+        <div class="sc-card-bg" style="background-image: url('images/two.jpg'); background-size: cover; background-position: center;">
+          <span class="sc-card-inline-title">The Fisherman's Oath</span>
+        </div>
+        <div class="sc-card-body">
+          <span class="sc-genre genre-story">Story</span>
+          <h3>The Fisherman's Oath</h3>
+          <p class="sc-author">Kofi M. · Accra, Ghana</p>
+        </div>
+      </a>
+
+      <!-- Card 3 -->
+      <a href="story.html?id=3" class="sc-card">
+        <div class="sc-card-bg" style="background-image: url('images/five.jpg'); background-size: cover; background-position: center;">
+          <span class="sc-card-inline-title">Mtoto wa Pwani</span>
+        </div>
+        <div class="sc-card-body">
+          <span class="sc-genre genre-song">Song</span>
+          <h3>Mtoto wa Pwani</h3>
+          <p class="sc-author">Amara K. · Mombasa, Kenya</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===================== HOW IT WORKS ===================== -->
+  <section style="padding: 7rem 2.5rem;">
+    <div class="how">
+      <p class="section-eyebrow reveal">Simple as a story</p>
+      <h2 class="section-heading reveal">How it works</h2>
+      <div class="how-steps reveal-group">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Create an account</h3>
+          <p>Join for free in seconds. No credit card, no catch — just your name and a love for stories.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Read or write</h3>
+          <p>Dive into thousands of works, or upload your own poem, story, or song right away.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Connect & grow</h3>
+          <p>Engage with writers, collect bookmarks, and become part of Africa's growing literary community.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== QUOTE ===================== -->
+  <section class="quotes">
+    <span class="big-q">"</span>
+    <div class="quotes-inner">
+      <p class="quote-text">"I finally found a place where my language, my landscape, my people — are the story, not the footnote."</p>
+      <p class="quote-author">— Fatima D., Writer · Dakar, Senegal</p>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="cta-banner">
+    <div class="cta-banner-inner reveal">
+      <h2>Your story<br><span>belongs here.</span></h2>
+      <p>Join thousands of African writers and readers building something that has never existed before.</p>
+      <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+        <a href="home.html" class="btn-primary" style="font-size:1.05rem; padding:1rem 2.5rem;">Join Soma Side — Free ✦</a>
+        <a href="about.html" class="btn-ghost" style="font-size:1.05rem; padding:1rem 2.5rem;">Learn more →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="footer-logo">
+      <img src="assets/logo.PNG" alt="Soma Side">
+    </div>
+    <ul class="footer-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="home.html">Stories</a></li>
+      <li><a href="upload.html">Write</a></li>
+      <li><a href="profile.html">Profile</a></li>
+    </ul>
+    <p class="footer-copy">© 2025 Soma Side. Celebrating African stories.</p>
+  </footer>
+
+  <script>
+    // ── Custom cursor ──
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button, .feat-card, .sc-card').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+    });
+
+    // ── Scroll reveal ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal, .reveal-group').forEach(el => observer.observe(el));
+
+    // ── Mobile nav ──
+    document.getElementById('menuToggle').addEventListener('click', () => {
+      const links = document.getElementById('navLinks');
+      const isOpen = links.style.display === 'flex';
+      links.style.display      = isOpen ? 'none' : 'flex';
+      links.style.flexDirection = 'column';
+      links.style.position      = 'absolute';
+      links.style.top           = '65px';
+      links.style.left          = '0';
+      links.style.right         = '0';
+      links.style.background    = '#1e0130';
+      links.style.padding       = '1.5rem 2.5rem';
+    });
+  </script>
+
+</body>
+</html>
